@@ -1,0 +1,22 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "commonjs",
+    "sourceMap": false,
+    "outDir": "dist"
+    //"noImplicitAny": false,
+    //"noEmitOnError": true,
+    //"removeComments": false,
+  },
+  "include": [
+    //"src/code1.ts",
+    "src/**/*"
+  ],
+  "exclude": [
+    ".vscode",
+    "node_modules",
+    "dist",
+    "temp",
+    "settings"
+  ]
+}

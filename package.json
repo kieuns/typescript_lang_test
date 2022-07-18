@@ -1,0 +1,12 @@
+{
+  "name": "ts-js-language-test",
+  "version": "1.0.0",
+  "description": "TS/JS Language test",
+  "scripts": {
+    "code1": "tsc --build & code dist/code1",
+    "build": "tsc --build"
+  },
+  "dependencies": {
+    "@types/lodash": "^4.14.182"
+  }
+}
