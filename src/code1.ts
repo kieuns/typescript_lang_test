@@ -15,8 +15,7 @@
 // clear && tsc --target es5 --allowJs --outDir 'dist' ./src/code1.ts && node ./dist/code1
 // npm 실행 커맨드
 // clear && tsc --build && node dist/code1
-// 커맨드실행시:
-// clear &&  tsc -t es5 ./src/code1.ts && node ./dist/code1
+// 커맨드실행시: (old)(쓰지말것) -> clear &&  tsc -t es5 ./src/code1.ts && node ./dist/code1
 //
 // 추가 lib
 // * underscore : https://underscorejs.org/
@@ -24,7 +23,52 @@
 
 
 import * as _ from "lodash"; // import _ = require('lodash');
+import math = require("mathjs");
 import {TickPlay} from './TickPlay';
+
+//=====================================================================================================================
+// runner
+// example: FunctionRunner.add({title:'MatrixTest', runFlag:true, func:mathjs.run});
+namespace FunctionRunner {
+    export interface RunParam {
+        title?:string;
+        runFlag:boolean;
+        func:Function;
+    }
+    let funcArr:RunParam[] = [];
+    export function clear() {
+        funcArr = [];
+    }
+    export function add(runParam:RunParam) {
+        funcArr.push(runParam);
+    }
+    export function run() {
+        funcArr.forEach(v => {
+            if(!v.func) { console.log('runFlag.func not exist'); }
+            console.log.apply(console, [v]);
+            if(v.runFlag) {                
+                if(v.title) {
+                    console.log('[run: ] ' + v.title);
+                }
+                v.func && v.func();
+            }
+        });
+    }
+}
+
+//=====================================================================================================================
+// https://mathjs.org/docs/getting_started.html
+// https://mathjs.org/examples/matrices.js.html
+
+namespace mathjs {
+    export function run() {
+        const a = math.matrix([1, 2, 3])
+        const b = math.matrix([[1,2,3], [1,2,3]]);
+        let c = math.multiply(a, b);
+        console.log.apply(console, [c]);
+    }
+}
+FunctionRunner.add({title:'MatrixTest', runFlag:true, func:mathjs.run});
 
 //=====================================================================================================================
 
@@ -49,7 +93,7 @@ namespace PatCmd {
         };
     }
 }
-PatCmd.run();
+FunctionRunner.add({title:'PatternTest', runFlag:false, func:PatCmd.run});
 
 //=====================================================================================================================
 
@@ -68,8 +112,7 @@ function runTick() {
     tickPlay.start(20);
     //tickPlay.reserveOnTime(0.5, () => { test_lodash(); } );
 }
-//runTick();
-
+FunctionRunner.add({runFlag:false, func:runTick});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // JS Library : lodash
@@ -85,7 +128,7 @@ function test_lodash()
     //_.delay(log, 1000, 'test_lodash : delay ended');
     console.log('test_lodash : after bind-delay');
 }
-
+FunctionRunner.add({title:'lodash', runFlag:false, func:test_lodash});
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -113,7 +156,7 @@ function testSort()
     msg = '';
     b3.forEach(elem => msg += elem + ', '); console.log(msg);
 }
-//testSort();
+FunctionRunner.add({title:'testSort', runFlag:false, func:testSort});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // default function test
@@ -132,8 +175,7 @@ function checkDefaultParam(check:boolean = true, strArr:string[] = null)
         console.log('checkDefaultParam: check false');
     }
 }
-
-//checkDefaultParam(false);
+FunctionRunner.add({title:'checkDefaultParam', runFlag:false, func:checkDefaultParam});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // tween bounce test
@@ -192,7 +234,7 @@ function test_easing()
     }
 }
 
-//test_easing();
+FunctionRunner.add({title:'test_easing', runFlag:false, func:test_easing});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -222,9 +264,7 @@ function test_interface()
     console.log(cc.y);
 }
 
-//test_interface();
-
-
+FunctionRunner.add({title:'test_interface', runFlag:false, func:test_interface});
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -278,7 +318,7 @@ function test_value_from_enum()
         break;
     }
 }
-//test_value_from_enum();
+FunctionRunner.add({title:'test_value_from_enum', runFlag:false, func:test_value_from_enum});
 
 //=============================================================================================================================================================
 
@@ -366,7 +406,8 @@ function test_overriding()
 
     console.log('');
 }
-//test_overriding();
+
+FunctionRunner.add({title:'test_overriding', runFlag:false, func:test_overriding});
 
 //=============================================================================================================================================================
 
@@ -402,8 +443,7 @@ function array_test()
     }
     str = 'after: '; array2.forEach((v, i, ar) => { str += ','+v}); console.log.apply(console, ['array: ', str]);
 }
-array_test();
-
+FunctionRunner.add({title:'array_test', runFlag:false, func:array_test});
 
 //=============================================================================================================================================================
 // https://yamoo9.gitbook.io/typescript/classes/getter-setter
@@ -426,8 +466,9 @@ function test_cubeinfo()
     console.log(cubeinfo._array[0], ",", cubeinfo._array[2]);
     console.log(cubeinfo.ground, ",", cubeinfo.cube);
 }
+FunctionRunner.add({title:'test_cubeinfo', runFlag:false, func:test_cubeinfo});
 
-//test_cubeinfo();
+//=============================================================================================================================================================
 
 /**
  * xy 등의 단순 좌표값을 저장할 클래스. 단순 숫자를 저장하는데 cc.Vec2를 쓰는 대신 정수형 좌표계로.
@@ -516,4 +557,8 @@ function test_a()
     console.log('type: ' , _js_obj.type);
 }
 
-test_a();
+FunctionRunner.add({title:'test_a', runFlag:false, func:test_a});
+
+//=============================================================================================================================================================
+
+FunctionRunner.run();

@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "TS/JS Language test",
   "scripts": {
-    "code1": "tsc --build & code dist/code1",
+    "run(code1)": "clear && tsc --build && node dist/code1",
     "build": "tsc --build"
   },
   "dependencies": {
-    "@types/lodash": "^4.14.182"
+    "@types/lodash": "^4.14.182",
+    "mathjs": "^11.1.0"
   }
 }
