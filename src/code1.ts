@@ -26,8 +26,9 @@ import * as _ from "lodash"; // import _ = require('lodash');
 import math = require("mathjs");
 import {TickPlay} from './TickPlay';
 
+
 //=====================================================================================================================
-// runner
+// runner (테스트 러너) 맨 위에 둘 것
 // example: FunctionRunner.add({title:'MatrixTest', runFlag:true, func:mathjs.run});
 namespace FunctionRunner {
     export interface RunParam {
@@ -45,16 +46,39 @@ namespace FunctionRunner {
     export function run() {
         funcArr.forEach(v => {
             if(!v.func) { console.log('runFlag.func not exist'); }
-            console.log.apply(console, [v]);
+            //console.log.apply(console, [v]);
             if(v.runFlag) {                
                 if(v.title) {
-                    console.log('[run: ] ' + v.title);
+                    console.log.apply(console, ['[run: ] ', v.title]);
                 }
                 v.func && v.func();
             }
         });
     }
 }
+
+
+//=====================================================================================================================
+// Const Variable Test
+// example: 
+namespace ConstVariableTest {
+    const BT_A = 'A';
+    const BT_B = undefined;
+    export function run() {
+        if(BT_A) {
+            console.log('BT_A:exist');
+        }
+        else {
+            console.log('BT_A:NOT exist');
+        }
+        if(BT_B) {
+            console.log('BT_B:exist');
+        } else {
+            console.log('BT_B:NOT exist');
+        }
+    }
+}
+FunctionRunner.add({title:'ConstVariableTest', runFlag:true, func:ConstVariableTest.run});
 
 //=====================================================================================================================
 // https://mathjs.org/docs/getting_started.html
@@ -68,7 +92,7 @@ namespace mathjs {
         console.log.apply(console, [c]);
     }
 }
-FunctionRunner.add({title:'MatrixTest', runFlag:true, func:mathjs.run});
+FunctionRunner.add({title:'MatrixTest', runFlag:false, func:mathjs.run});
 
 //=====================================================================================================================
 
