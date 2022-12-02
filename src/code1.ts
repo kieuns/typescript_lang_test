@@ -15,7 +15,6 @@
 // clear && tsc --target es5 --allowJs --outDir 'dist' ./src/code1.ts && node ./dist/code1
 // npm 실행 커맨드
 // clear && tsc --build && node dist/code1
-// 커맨드실행시: (old)(쓰지말것) -> clear &&  tsc -t es5 ./src/code1.ts && node ./dist/code1
 //
 // 추가 lib
 // * underscore : https://underscorejs.org/
@@ -28,7 +27,7 @@ import {TickPlay} from './TickPlay';
 
 
 //=====================================================================================================================
-// runner (테스트 러너) 맨 위에 둘 것
+// runner (테스트 러너) 맨 위에 둘 것. 테스트 코드는 아래 부분에 작성.
 // example: FunctionRunner.add({title:'MatrixTest', runFlag:true, func:mathjs.run});
 namespace FunctionRunner {
     export interface RunParam {
@@ -47,7 +46,7 @@ namespace FunctionRunner {
         funcArr.forEach(v => {
             if(!v.func) { console.log('runFlag.func not exist'); }
             //console.log.apply(console, [v]);
-            if(v.runFlag) {                
+            if(v.runFlag) {
                 if(v.title) {
                     console.log.apply(console, ['[run: ] ', v.title]);
                 }
@@ -57,10 +56,32 @@ namespace FunctionRunner {
     }
 }
 
+//=====================================================================================================================
+// 테스트 코드는 여기에서부터 작성 시작
+//=====================================================================================================================
+
+//=====================================================================================================================
+// const 에 제이슨 대입 테스트
+namespace JsonToConstVariableTest {
+    let sample_json = {
+        asid: 'asid',
+        signedSignature: '사인리퀘스트',
+        // isLogin: true,
+        friendIds: ['a', 'b', 'c'],
+    }
+    export function run() {
+        const { asid, signedSignature, isLogin, friendIds } = sample_json;
+        console.log('asid:', asid);
+        console.log('signedSignature:', signedSignature);
+        console.log('isLogin:', isLogin);
+        console.log.apply(console, ['friendIds:', friendIds]);
+    }
+}
+FunctionRunner.add({title:'제이슨2const변수Test', runFlag:true, func:JsonToConstVariableTest.run});
 
 //=====================================================================================================================
 // Const Variable Test
-// example: 
+// example:
 namespace ConstVariableTest {
     const BT_A = 'A';
     const BT_B = undefined;
@@ -78,7 +99,7 @@ namespace ConstVariableTest {
         }
     }
 }
-FunctionRunner.add({title:'ConstVariableTest', runFlag:true, func:ConstVariableTest.run});
+FunctionRunner.add({title:'ConstVariableTest', runFlag:false, func:ConstVariableTest.run});
 
 //=====================================================================================================================
 // https://mathjs.org/docs/getting_started.html
