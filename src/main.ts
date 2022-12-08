@@ -1,5 +1,4 @@
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-//
 // To summarize(non - exhaustively) bash's command operators/separators:
 //
 // | pipes(pipelines) the standard output(stdout) of one command into the standard input of another one.Note that stderr still goes into its default destination, whatever that happen to be.
@@ -12,53 +11,62 @@
 // 버젼명시:
 // tsc -t es5 {파일명}.ts
 // 커맨드실행시:
-// clear && tsc --target es5 --allowJs --outDir 'dist' ./src/code1.ts && node ./dist/code1
+// clear && tsc --target es5 --allowJs --outDir 'dist' ./src/main.ts && node ./dist/main
 // npm 실행 커맨드
-// clear && tsc --build && node dist/code1
+// clear && tsc --build && node dist/main
 //
 // 추가 lib
 // * underscore : https://underscorejs.org/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-
-import * as _ from "lodash"; // import _ = require('lodash');
+import * as _ from "lodash";
+// import _ = require('lodash');
 import math = require("mathjs");
-import {TickPlay} from './TickPlay';
-
-
-//=====================================================================================================================
-// runner (테스트 러너) 맨 위에 둘 것. 테스트 코드는 아래 부분에 작성.
-// example: FunctionRunner.add({title:'MatrixTest', runFlag:true, func:mathjs.run});
-namespace FunctionRunner {
-    export interface RunParam {
-        title?:string;
-        runFlag:boolean;
-        func:Function;
-    }
-    let funcArr:RunParam[] = [];
-    export function clear() {
-        funcArr = [];
-    }
-    export function add(runParam:RunParam) {
-        funcArr.push(runParam);
-    }
-    export function run() {
-        funcArr.forEach(v => {
-            if(!v.func) { console.log('runFlag.func not exist'); }
-            //console.log.apply(console, [v]);
-            if(v.runFlag) {
-                if(v.title) {
-                    console.log.apply(console, ['[run: ] ', v.title]);
-                }
-                v.func && v.func();
-            }
-        });
-    }
-}
+import { FunctionRunner } from "./FunctionRunner";
+import { TickPlay } from './TickPlay';
 
 //=====================================================================================================================
 // 테스트 코드는 여기에서부터 작성 시작
 //=====================================================================================================================
+
+//=====================================================================================================================
+// 물음표(Optional) 변수 테스트
+namespace OptionalVariableTest
+{
+    interface IOptionVar {
+        msg?:string;
+        num?:number;
+        boolValue?:boolean;
+    }
+    export function run() {
+        let param1 = {msg:'abcde', boolValue:false};
+        checkParameter(param1);
+    }
+
+    function checkParameter(optVar:IOptionVar) {
+        if(optVar.msg) {
+            console.log('OptionalVariableTest:msg:', optVar.msg);
+        }
+        else {
+            console.log('OptionalVariableTest:msg:ignore');
+        }
+
+        if(optVar.num) {
+            console.log('OptionalVariableTest:num:', optVar.num);
+        }
+        else {
+            console.log('OptionalVariableTest:num:ignore');
+        }
+
+        if(optVar.boolValue) {
+            console.log('OptionalVariableTest:boolValue:', optVar.boolValue);
+        }
+        else {
+            console.log('OptionalVariableTest:boolValue:ignore');
+        }
+    }
+}
+FunctionRunner.add({title:'OptionalVariableTest', runFlag:true, func:OptionalVariableTest.run});
 
 //=====================================================================================================================
 // const 에 제이슨 대입 테스트
@@ -66,7 +74,7 @@ namespace JsonToConstVariableTest {
     let sample_json = {
         asid: 'asid',
         signedSignature: '사인리퀘스트',
-        // isLogin: true,
+        isLogin: true, // 결과가 궁금하면 주석으로 만들어보기
         friendIds: ['a', 'b', 'c'],
     }
     export function run() {
@@ -77,12 +85,13 @@ namespace JsonToConstVariableTest {
         console.log.apply(console, ['friendIds:', friendIds]);
     }
 }
-FunctionRunner.add({title:'제이슨2const변수Test', runFlag:true, func:JsonToConstVariableTest.run});
+FunctionRunner.add({title:'제이슨2const변수Test', runFlag:false, func:JsonToConstVariableTest.run});
 
 //=====================================================================================================================
 // Const Variable Test
 // example:
-namespace ConstVariableTest {
+namespace ConstVariableTest
+{
     const BT_A = 'A';
     const BT_B = undefined;
     export function run() {
@@ -105,7 +114,8 @@ FunctionRunner.add({title:'ConstVariableTest', runFlag:false, func:ConstVariable
 // https://mathjs.org/docs/getting_started.html
 // https://mathjs.org/examples/matrices.js.html
 
-namespace mathjs {
+namespace mathjs
+{
     export function run() {
         const a = math.matrix([1, 2, 3])
         const b = math.matrix([[1,2,3], [1,2,3]]);
@@ -119,7 +129,8 @@ FunctionRunner.add({title:'MatrixTest', runFlag:false, func:mathjs.run});
 
 // command pattern sample code
 
-namespace PatCmd {
+namespace PatCmd
+{
     export function run() {
         let cmd = make_moveUnitCommand(null, 1, 1);
         cmd.execute();
@@ -152,7 +163,8 @@ FunctionRunner.add({title:'PatternTest', runFlag:false, func:PatCmd.run});
 
 /** @type {TickPlay} */
 let tickPlay = null;
-function runTick() {
+function runTick()
+{
     tickPlay = new TickPlay();
     tickPlay.start(20);
     //tickPlay.reserveOnTime(0.5, () => { test_lodash(); } );

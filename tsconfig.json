@@ -9,7 +9,7 @@
     //"removeComments": false,
   },
   "include": [
-    //"src/code1.ts",
+    //"src/main.ts",
     "src/**/*"
   ],
   "exclude": [

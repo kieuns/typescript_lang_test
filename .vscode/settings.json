@@ -1,4 +1,5 @@
 {
     "workbench.colorTheme": "Default High Contrast Light",
-    "editor.renderLineHighlight": "gutter"
+    "editor.renderLineHighlight": "gutter",
+    "editor.fontFamily": "CascadiaCodeRoman-SemiLight, Menlo, Monaco, 'Courier New', monospace"
 }

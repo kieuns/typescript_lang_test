@@ -1,4 +1,4 @@
-import { log } from "./log";
+import { loglevel } from "./log";
 
 
 export interface ITickWork
@@ -20,31 +20,31 @@ export interface ITickWork
 export class TickPlay
 {
     protected _tickNowIndex:number = 0;
-
     protected _tickMaxPerSec:number = 10;
 
     /** 게임이 끝나는 틱 */
     protected _tickCleared:number = -1;
-
     /** 게임이 끝나는 시간 */
     protected _expectEndTime:number = 0;
-
     protected _expectEndTick:number = 0;
-
     protected _tickTimerId:number = -1;
-
     protected _loopStarted:boolean = false;
 
     /** 작업 목록 */
     protected _workTodo:ITickWork[] = [];
 
 
-    getNowTick() { return this._tickNowIndex; }
+    getNowTick() {
+        return this._tickNowIndex;
+    }
 
-    getNowAsTime() { return this._tickNowIndex * this._tickMaxPerSec; }
+    getNowAsTime() {
+        return this._tickNowIndex * this._tickMaxPerSec;
+    }
 
-
-    /** @param {number} expectEndTick Tick의 개수 */
+    /**
+     * @param {number} expectEndTick Tick의 개수
+     */
     start(expectEndTick?:number)
     {
         this._expectEndTick = expectEndTick;
@@ -70,7 +70,7 @@ export class TickPlay
             return;
         }
 
-        if(log.toomuch) { console.log('TickPlay : onTick() : ', this._tickNowIndex, ', work count: ', this._workTodo.length); }
+        if(loglevel.toomuch) { console.log('TickPlay : onTick() : ', this._tickNowIndex, ', work count: ', this._workTodo.length); }
 
         for(let i = 0; i < this._workTodo.length; i++) {
             let item = this._workTodo[i];
@@ -124,7 +124,7 @@ export class TickPlay
         {
             let nx_tick = this._tickNowIndex + Math.ceil(time*this._tickMaxPerSec);
 
-            if(log.verydetail) { console.log('tickplay : now: ', this._tickNowIndex, ' expect at : ', nx_tick, ', time:', time.toFixed(4)); }
+            if(loglevel.verydetail) { console.log('tickplay : now: ', this._tickNowIndex, ' expect at : ', nx_tick, ', time:', time.toFixed(4)); }
 
             this._workTodo.push({tick: nx_tick, func:callback, delete:false});
 
