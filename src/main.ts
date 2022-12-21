@@ -19,8 +19,7 @@
 // * underscore : https://underscorejs.org/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-import * as _ from "lodash";
-// import _ = require('lodash');
+import * as _ from "lodash"; // import _ = require('lodash');
 import math = require("mathjs");
 import { FunctionRunner } from "./FunctionRunner";
 import { TickPlay } from './TickPlay';
@@ -31,19 +30,18 @@ import { TickPlay } from './TickPlay';
 
 //=====================================================================================================================
 // 물음표(Optional) 변수 테스트
-namespace OptionalVariableTest
-{
+namespace OptionalVariableTest {
     interface IOptionVar {
-        msg?:string;
-        num?:number;
-        boolValue?:boolean;
+        msg?: string;
+        num?: number;
+        boolValue?: boolean;
     }
     export function run() {
-        let param1 = {msg:'abcde', boolValue:false};
+        let param1 = { msg: 'abcde', boolValue: false };
         checkParameter(param1);
     }
 
-    function checkParameter(optVar:IOptionVar) {
+    function checkParameter(optVar: IOptionVar) {
         if(optVar.msg) {
             console.log('OptionalVariableTest:msg:', optVar.msg);
         }
@@ -66,7 +64,7 @@ namespace OptionalVariableTest
         }
     }
 }
-FunctionRunner.add({title:'OptionalVariableTest', runFlag:true, func:OptionalVariableTest.run});
+FunctionRunner.add({ title: 'OptionalVariableTest', runFlag: true, func: OptionalVariableTest.run });
 
 //=====================================================================================================================
 // const 에 제이슨 대입 테스트
@@ -85,13 +83,12 @@ namespace JsonToConstVariableTest {
         console.log.apply(console, ['friendIds:', friendIds]);
     }
 }
-FunctionRunner.add({title:'제이슨2const변수Test', runFlag:false, func:JsonToConstVariableTest.run});
+FunctionRunner.add({ title: '제이슨2const변수Test', runFlag: false, func: JsonToConstVariableTest.run });
 
 //=====================================================================================================================
 // Const Variable Test
 // example:
-namespace ConstVariableTest
-{
+namespace ConstVariableTest {
     const BT_A = 'A';
     const BT_B = undefined;
     export function run() {
@@ -108,48 +105,46 @@ namespace ConstVariableTest
         }
     }
 }
-FunctionRunner.add({title:'ConstVariableTest', runFlag:false, func:ConstVariableTest.run});
+FunctionRunner.add({ title: 'ConstVariableTest', runFlag: false, func: ConstVariableTest.run });
 
 //=====================================================================================================================
 // https://mathjs.org/docs/getting_started.html
 // https://mathjs.org/examples/matrices.js.html
 
-namespace mathjs
-{
+namespace mathjs {
     export function run() {
         const a = math.matrix([1, 2, 3])
-        const b = math.matrix([[1,2,3], [1,2,3]]);
+        const b = math.matrix([[1, 2, 3], [1, 2, 3]]);
         let c = math.multiply(a, b);
         console.log.apply(console, [c]);
     }
 }
-FunctionRunner.add({title:'MatrixTest', runFlag:false, func:mathjs.run});
+FunctionRunner.add({ title: 'MatrixTest', runFlag: false, func: mathjs.run });
 
 //=====================================================================================================================
 
 // command pattern sample code
 
-namespace PatCmd
-{
+namespace PatCmd {
     export function run() {
         let cmd = make_moveUnitCommand(null, 1, 1);
         cmd.execute();
         cmd.undo();
     }
 
-    function make_moveUnitCommand(unit:any, x:number, y:number):any {
-        let xBefore:number, yBefore:number;
+    function make_moveUnitCommand(unit: any, x: number, y: number): any {
+        let xBefore: number, yBefore: number;
         return {
-            execute: function() {
+            execute: function () {
                 console.log('make_moveUnitCommand: execute()');
             },
-            undo: function() {
+            undo: function () {
                 console.log('make_moveUnitCommand: undo()');
             }
         };
     }
 }
-FunctionRunner.add({title:'PatternTest', runFlag:false, func:PatCmd.run});
+FunctionRunner.add({ title: 'PatternTest', runFlag: false, func: PatCmd.run });
 
 //=====================================================================================================================
 
@@ -163,21 +158,19 @@ FunctionRunner.add({title:'PatternTest', runFlag:false, func:PatCmd.run});
 
 /** @type {TickPlay} */
 let tickPlay = null;
-function runTick()
-{
+function runTick() {
     tickPlay = new TickPlay();
     tickPlay.start(20);
     //tickPlay.reserveOnTime(0.5, () => { test_lodash(); } );
 }
-FunctionRunner.add({runFlag:false, func:runTick});
+FunctionRunner.add({ runFlag: false, func: runTick });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // JS Library : lodash
 // npm install --save @types/lodash
 // 타입이 명확하지 않으면 이런걸 쓰는 건가 ( https://www.typescriptlang.org/docs/handbook/declaration-files/consumption.html )
 
-function test_lodash()
-{
+function test_lodash() {
     console.log('test_lodash');
 
     console.log('test_lodash : before bind-delay');
@@ -185,42 +178,39 @@ function test_lodash()
     //_.delay(log, 1000, 'test_lodash : delay ended');
     console.log('test_lodash : after bind-delay');
 }
-FunctionRunner.add({title:'lodash', runFlag:false, func:test_lodash});
+FunctionRunner.add({ title: 'lodash', runFlag: false, func: test_lodash });
 
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // JS Library : underscore
 
-function test_underscore()
-{
+function test_underscore() {
 }
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // shuffle
 
-function testSort()
-{
+function testSort() {
     let msg = '';
-    let a1:number[] = [11,2,22,1];
+    let a1: number[] = [11, 2, 22, 1];
     msg = '';
     a1.forEach(elem => msg += elem + ', '); console.log(msg);
 
-    let b1:number[] = a1.sort((a, b) => a - b);
+    let b1: number[] = a1.sort((a, b) => a - b);
     msg = '';
     b1.forEach(elem => msg += elem + ', '); console.log(msg);
 
-    let b3:number[] = b1.sort(() => 0.5 - Math.random());
+    let b3: number[] = b1.sort(() => 0.5 - Math.random());
     msg = '';
     b3.forEach(elem => msg += elem + ', '); console.log(msg);
 }
-FunctionRunner.add({title:'testSort', runFlag:false, func:testSort});
+FunctionRunner.add({ title: 'testSort', runFlag: false, func: testSort });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // default function test
 
-function checkDefaultParam(check:boolean = true, strArr:string[] = null)
-{
-    let str_smp_arr:string[] = ['a', 'b', 'c', 'd'];
+function checkDefaultParam(check: boolean = true, strArr: string[] = null) {
+    let str_smp_arr: string[] = ['a', 'b', 'c', 'd'];
     let str_arr = strArr ? strArr : str_smp_arr;
 
     console.log('checkDefaultParam : ', str_arr);
@@ -232,29 +222,28 @@ function checkDefaultParam(check:boolean = true, strArr:string[] = null)
         console.log('checkDefaultParam: check false');
     }
 }
-FunctionRunner.add({title:'checkDefaultParam', runFlag:false, func:checkDefaultParam});
+FunctionRunner.add({ title: 'checkDefaultParam', runFlag: false, func: checkDefaultParam });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // tween bounce test
 
-function easeOutBounceOriginal(x: number): number
-{
-  const n1 = 7.5625;
-  const d1 = 2.75;
+function easeOutBounceOriginal(x: number): number {
+    const n1 = 7.5625;
+    const d1 = 2.75;
 
-  if (x < 1 / d1) { return n1 * x * x; }
-  else if (x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
-  else if (x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
+    if(x < 1 / d1) { return n1 * x * x; }
+    else if(x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
+    else if(x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
 
-  return n1 * (x -= 2.625 / d1) * x + 0.984375;
+    return n1 * (x -= 2.625 / d1) * x + 0.984375;
 }
 
 // cocos-creator 2.4.6, CCActionEase.js
-function _bounceTime (time1) {
-    if (time1 < 1 / 2.75) {
+function _bounceTime(time1) {
+    if(time1 < 1 / 2.75) {
         return 7.5625 * time1 * time1;
     }
-    else if (time1 < 1.93 / 2.75) {
+    else if(time1 < 1.93 / 2.75) {
         time1 -= 1.5 / 2.75;
         return 7.5625 * time1 * time1 + 0.75;
     }
@@ -262,57 +251,52 @@ function _bounceTime (time1) {
     return 7.5625 * time1 * time1 + 1;
 };
 
-function easeOutBounceMod(x: number): number
-{
-  const n1 = 8; const d1 = 2;
-  if (x < 1 / d1) { return n1 * x * x * x; }
-  return n1 * (x -= 2 / d1) * x * x + 1;
+function easeOutBounceMod(x: number): number {
+    const n1 = 8; const d1 = 2;
+    if(x < 1 / d1) { return n1 * x * x * x; }
+    return n1 * (x -= 2 / d1) * x * x + 1;
 }
 
-function easeOutBounceMod2(x: number): number
-{
+function easeOutBounceMod2(x: number): number {
     const n1 = 6;
     const d1 = 4;
 
-    if (x < 1 / d1) { return n1 * x * x; }
-    else if (x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
-    else if (x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
+    if(x < 1 / d1) { return n1 * x * x; }
+    else if(x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
+    else if(x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
 
     return n1 * (x -= 2.625 / d1) * x + 0.984375;
 }
 
 
-function test_easing()
-{
-    for(let t:number = 0; t <= 1.05; t += 0.05)
-    {
+function test_easing() {
+    for(let t: number = 0; t <= 1.05; t += 0.05) {
         let v = easeOutBounceMod2(t);
         console.log('easeBounceOut(t) > ', t.toFixed(4), ' -> ', v.toFixed(4));
     }
 }
 
-FunctionRunner.add({title:'test_easing', runFlag:false, func:test_easing});
+FunctionRunner.add({ title: 'test_easing', runFlag: false, func: test_easing });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 interface XY {
-    x:number;
-    y:number;
+    x: number;
+    y: number;
 };
 
-function test_interface()
-{
+function test_interface() {
     let smp_arrary = [];
 
     let na = 100;
     let nb = -200;
 
-    smp_arrary.push({x:0,y:1});
-    smp_arrary.push([-2,9]);
-    smp_arrary.push({x:na, y:nb});
+    smp_arrary.push({ x: 0, y: 1 });
+    smp_arrary.push([-2, 9]);
+    smp_arrary.push({ x: na, y: nb });
 
-    let aa:XY = smp_arrary[0];
-    let bb:XY = smp_arrary[1];
+    let aa: XY = smp_arrary[0];
+    let bb: XY = smp_arrary[1];
     console.log(aa.x, ',', aa.y);
     console.log(bb.x);
 
@@ -321,7 +305,7 @@ function test_interface()
     console.log(cc.y);
 }
 
-FunctionRunner.add({title:'test_interface', runFlag:false, func:test_interface});
+FunctionRunner.add({ title: 'test_interface', runFlag: false, func: test_interface });
 
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -332,50 +316,47 @@ export enum EAnything {
     ABCD = 2001
 }
 
-export enum BlockType
-{
+export enum BlockType {
     None,
     A = 100, B = 101, C = 102,
 }
 
 namespace ConstV {
-export const IngameDesignGuide =
-{
-    'A': { xPositon: 0, yPosition: 0, xScale: 1, yScale: 1, xAnchor: 0.5, yAnchor: 0.5, },
-    'B': { xPositon: 0, yPosition: 0, xScale: 1, yScale: 1, xAnchor: 0.5, yAnchor: 0.5, },
-    'C': { xPositon: 0, yPosition: 0, xScale: 1, yScale: 1, xAnchor: 0.5, yAnchor: 0.5, },
-};
+    export const IngameDesignGuide =
+    {
+        'A': { xPositon: 0, yPosition: 0, xScale: 1, yScale: 1, xAnchor: 0.5, yAnchor: 0.5, },
+        'B': { xPositon: 0, yPosition: 0, xScale: 1, yScale: 1, xAnchor: 0.5, yAnchor: 0.5, },
+        'C': { xPositon: 0, yPosition: 0, xScale: 1, yScale: 1, xAnchor: 0.5, yAnchor: 0.5, },
+    };
 };
 
-function test_value_from_enum()
-{
-    if(ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce){
+function test_value_from_enum() {
+    if(ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce) {
         console.log('ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce : exist');
-    }else {
+    } else {
         console.log('ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce : undefined');
     }
 
     let v = BlockType.C;
     console.log.apply(console, ['IngameDesignGuide[BlockType[BlockType.C]]'
-        , ConstV.IngameDesignGuide[BlockType[v]] ]);
+        , ConstV.IngameDesignGuide[BlockType[v]]]);
 
     console.log.apply(console, ['IngameDesignGuide[BlockType[BlockType.C]].yPosition: '
-        , ConstV.IngameDesignGuide[BlockType[BlockType.C]].yPosition ]);
+        , ConstV.IngameDesignGuide[BlockType[BlockType.C]].yPosition]);
 
     console.log('\n');
 
     let va = 0;
-    switch(va)
-    {
-    case 1:
-        break;
-    case 2:
-        break;
-    case 3:
-        break;
+    switch(va) {
+        case 1:
+            break;
+        case 2:
+            break;
+        case 3:
+            break;
     }
 }
-FunctionRunner.add({title:'test_value_from_enum', runFlag:false, func:test_value_from_enum});
+FunctionRunner.add({ title: 'test_value_from_enum', runFlag: false, func: test_value_from_enum });
 
 //=============================================================================================================================================================
 
@@ -385,8 +366,7 @@ class ATester {
 
     constructor() { console.log("constructor ATester");; }
 
-    public do_no_override() : ATester
-    {
+    public do_no_override(): ATester {
         console.log('ATester : do_no_override');
         return this;
     }
@@ -399,18 +379,15 @@ class ATester {
         Object2: (this.obj1 !== null),
     };
 
-    public do_override()
-    {
+    public do_override() {
         console.log('ATester : do_override');
     }
 
-    public buildSelf()
-    {
+    public buildSelf() {
         console.log('ATester : buildSelf');
     }
 
-    public static do_static_func<T extends ATester>(TYPE: new () => T): any
-    {
+    public static do_static_func<T extends ATester>(TYPE: new () => T): any {
         console.log('ATester : do_static_func');
         let new_object = new TYPE();
         new_object.buildSelf();
@@ -421,15 +398,13 @@ class ATester {
 class BTester extends ATester {
     constructor() { super(); console.log("constructor BTester"); }
 
-    public do_override() : BTester
-    {
+    public do_override(): BTester {
         console.log('BTester : do_override');
         //super.do_override();
         return this;
     }
 
-    public buildSelf()
-    {
+    public buildSelf() {
         console.log('BTester : buildSelf');
     }
 
@@ -441,8 +416,7 @@ class BTester extends ATester {
     // }
 }
 
-function test_overriding()
-{
+function test_overriding() {
     let test_a = new ATester();
 
     console.log('ts_test.ts : run');
@@ -456,7 +430,7 @@ function test_overriding()
     test_ba.do_override();
     test_ba.do_no_override();
 
-    let test_bb:BTester = ATester.do_static_func(BTester);
+    let test_bb: BTester = ATester.do_static_func(BTester);
     console.log.apply(console, ['test_bb is ', test_bb]);
 
     test_bb.do_override();
@@ -464,7 +438,7 @@ function test_overriding()
     console.log('');
 }
 
-FunctionRunner.add({title:'test_overriding', runFlag:false, func:test_overriding});
+FunctionRunner.add({ title: 'test_overriding', runFlag: false, func: test_overriding });
 
 //=============================================================================================================================================================
 
@@ -472,50 +446,48 @@ FunctionRunner.add({title:'test_overriding', runFlag:false, func:test_overriding
 /** array test
  * {@link array_test}
  */
-function array_test()
-{
+function array_test() {
     console.log('~~ Test 1 ~~');
     let arrays: number[] = [1, 9, 23, 87, 53, 88];
-    let _ret = arrays.map( (value: number, index: number): string => `index is ${index} and value is ${value}`);
+    let _ret = arrays.map((value: number, index: number): string => `index is ${index} and value is ${value}`);
     console.log(_ret);
 
     console.log('~~ Test 2 ~~');
-    let _ret2 = arrays.map( row => { return `row is what? is ${row}`; });
+    let _ret2 = arrays.map(row => { return `row is what? is ${row}`; });
     console.log(_ret2);
 
     console.log('~~ Test 3 ~~');
-    arrays.splice( 2, 1 );
+    arrays.splice(2, 1);
     console.log.apply(console, ['after array: ', arrays]);
 
     console.log('~~ Test 4 ~~ : 삭제 테스트');
     let array2: number[] = [22, 1, 44, 1, 66, 1, 88];
     let str = '';
-    array2.forEach((v, i, ar) => { str += ','+v});
+    array2.forEach((v, i, ar) => { str += ',' + v });
     console.log.apply(console, ['before array: ', str]);
-    for(let i = array2.length-1; i >= 0; i--) {
+    for(let i = array2.length - 1; i >= 0; i--) {
         if(array2[i] === 1) {
             array2.splice(i, 1);
-            str = 'after: '; array2.forEach((v, i, ar) => { str += ','+v}); console.log.apply(console, ['array: ', str]);
+            str = 'after: '; array2.forEach((v, i, ar) => { str += ',' + v }); console.log.apply(console, ['array: ', str]);
         }
     }
-    str = 'after: '; array2.forEach((v, i, ar) => { str += ','+v}); console.log.apply(console, ['array: ', str]);
+    str = 'after: '; array2.forEach((v, i, ar) => { str += ',' + v }); console.log.apply(console, ['array: ', str]);
 }
-FunctionRunner.add({title:'array_test', runFlag:false, func:array_test});
+FunctionRunner.add({ title: 'array_test', runFlag: false, func: array_test });
 
 //=============================================================================================================================================================
 // https://yamoo9.gitbook.io/typescript/classes/getter-setter
 
 class ACubeInfo {
     public _array: number[] = [-1, -1, -1];
-    public setFromJson(jsn:number[]) {
+    public setFromJson(jsn: number[]) {
         this._array = jsn;
     }
-    get ground():number { return this._array[0]; }
+    get ground(): number { return this._array[0]; }
     get cube(): number { return this._array[1]; }
 }
 
-function test_cubeinfo()
-{
+function test_cubeinfo() {
     let cubeinfo: ACubeInfo = new ACubeInfo();
     //cubeinfo._array = [9, 10, 17];
     cubeinfo.setFromJson(JSON.parse('[9, 10, 17]'));
@@ -523,7 +495,7 @@ function test_cubeinfo()
     console.log(cubeinfo._array[0], ",", cubeinfo._array[2]);
     console.log(cubeinfo.ground, ",", cubeinfo.cube);
 }
-FunctionRunner.add({title:'test_cubeinfo', runFlag:false, func:test_cubeinfo});
+FunctionRunner.add({ title: 'test_cubeinfo', runFlag: false, func: test_cubeinfo });
 
 //=============================================================================================================================================================
 
@@ -542,7 +514,7 @@ FunctionRunner.add({title:'test_cubeinfo', runFlag:false, func:test_cubeinfo});
  * position.width = 1000;
  * let other_width = position.width;
  */
- export class JustXY {
+export class JustXY {
     public x: number = -1;
     public y: number = -1;
     get width() { return this.x; }
@@ -559,8 +531,7 @@ FunctionRunner.add({title:'test_cubeinfo', runFlag:false, func:test_cubeinfo});
     public static new(x: number = -1, y: number = -1) { return new JustXY(x, y); }
 }
 
-function test_a()
-{
+function test_a() {
     let sxy = new JustXY(-1, -10);
     console.log('SimpleXY: width: ', sxy.width, ', height: ', sxy.height);
     sxy.width = 11;
@@ -572,13 +543,13 @@ function test_a()
 
     ///////////////////////////////////////////////////////////////////////////////
 
-    let multiArray : number [][] = [];
-    multiArray.push([ 1, 2, 3, 4]);
+    let multiArray: number[][] = [];
+    multiArray.push([1, 2, 3, 4]);
     console.log("multiArray: (0,1) value is : ", (multiArray[0][1] === null) ? 'null' : 'has value ', multiArray[0][1]);
     console.log("multiArray: (2,) value is : ", (multiArray[2] === undefined) ? 'null' : 'has value ', multiArray[2]);
     let singleArray: number[] = [];
     console.log("singleArray: (2) value is : ", (singleArray[2] === undefined) ? 'null' : 'has value ', singleArray[2]);
-    singleArray = [ null, null, null, null ];
+    singleArray = [null, null, null, null];
     console.log("singleArray: (2) value is : ", (singleArray[2] === null) ? 'null' : 'has value ', singleArray[2]);
 
     ///////////////////////////////////////////////////////////////////////////////
@@ -610,11 +581,11 @@ function test_a()
     let _js_obj = JSON.parse(_js_str);
     console.log(_js_str);
     console.log(_js_obj);
-    console.log('name: ' , _js_obj.name);
-    console.log('type: ' , _js_obj.type);
+    console.log('name: ', _js_obj.name);
+    console.log('type: ', _js_obj.type);
 }
 
-FunctionRunner.add({title:'test_a', runFlag:false, func:test_a});
+FunctionRunner.add({ title: 'test_a', runFlag: false, func: test_a });
 
 //=============================================================================================================================================================
 
