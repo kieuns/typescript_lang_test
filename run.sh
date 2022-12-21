@@ -1,2 +1,3 @@
 #!/bin/bash
-clear && tsc --target es5 --allowJs --outDir 'dist' ./src/main.ts && node ./dist/main
+# clear && tsc --project tsconfig.json && node ./dist/main
+clear && tsc --module commonjs --target es6 --allowJs --lib es2015,es2017,dom --outDir 'dist' ./src/main.ts && node ./dist/main

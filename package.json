@@ -4,7 +4,7 @@
   "description": "TS/JS Language test",
   "scripts": {
     "test": "clear && tsc --build && node dist/main",
-    "run(main)": "clear && tsc --build && node dist/main",
+    "main": "clear && tsc --build && node dist/main",
     "build": "tsc --build"
   },
   "dependencies": {

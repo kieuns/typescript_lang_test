@@ -19,14 +19,47 @@
 // * underscore : https://underscorejs.org/
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-import * as _ from "lodash"; // import _ = require('lodash');
-import math = require("mathjs");
 import { FunctionRunner } from "./FunctionRunner";
-import { TickPlay } from './TickPlay';
+import { TickPlay } from "./TickPlay";
+
 
 //=====================================================================================================================
 // 테스트 코드는 여기에서부터 작성 시작
 //=====================================================================================================================
+
+//=====================================================================================================================
+// 콜백,프로미스(callback, promise) 테스트
+namespace PromiseTest {
+    class TestResponse {
+        protected _result: number = -1;
+        public constructor() {
+            this._result = 0;
+        }
+        set result(v: number) {
+            this._result = v;
+        }
+    };
+    async function sendRequest(): Promise<TestResponse> {
+        return new Promise((resolve, reject) => {
+            setTimeout(() => {
+                let n = new TestResponse();
+                n.result = 100;
+                resolve(n);
+            }, 2000);
+        });
+    }
+    function nextCall() {
+        console.log('async func reaction');
+    }
+    export function run() {
+        sendRequest().then((v) => {
+            nextCall();
+        });
+        console.log('called async func');
+    }
+}
+FunctionRunner.add({ title: 'PromiseTest', runFlag: true, func: PromiseTest.run });
+
 
 //=====================================================================================================================
 // 물음표(Optional) 변수 테스트
@@ -64,7 +97,7 @@ namespace OptionalVariableTest {
         }
     }
 }
-FunctionRunner.add({ title: 'OptionalVariableTest', runFlag: true, func: OptionalVariableTest.run });
+FunctionRunner.add({ title: 'OptionalVariableTest', runFlag: false, func: OptionalVariableTest.run });
 
 //=====================================================================================================================
 // const 에 제이슨 대입 테스트
@@ -111,15 +144,15 @@ FunctionRunner.add({ title: 'ConstVariableTest', runFlag: false, func: ConstVari
 // https://mathjs.org/docs/getting_started.html
 // https://mathjs.org/examples/matrices.js.html
 
-namespace mathjs {
-    export function run() {
-        const a = math.matrix([1, 2, 3])
-        const b = math.matrix([[1, 2, 3], [1, 2, 3]]);
-        let c = math.multiply(a, b);
-        console.log.apply(console, [c]);
-    }
-}
-FunctionRunner.add({ title: 'MatrixTest', runFlag: false, func: mathjs.run });
+// namespace mathjs {
+//     export function run() {
+//         const a = matrix([1, 2, 3])
+//         const b = matrix([[1, 2, 3], [1, 2, 3]]);
+//         let c = multiply(a, b);
+//         console.log.apply(console, [c]);
+//     }
+// }
+// FunctionRunner.add({ title: 'MatrixTest', runFlag: false, func: mathjs.run });
 
 //=====================================================================================================================
 
