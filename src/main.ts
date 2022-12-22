@@ -28,32 +28,59 @@ import { TickPlay } from "./TickPlay";
 //=====================================================================================================================
 
 //=====================================================================================================================
-// generic 클래스 static 변수
+// Date 비교함수
+namespace DateTest {
+    function getRandomDate(start: Date = new Date(2022, 12, 1, 0, 0, 0), end: Date = new Date(2022, 12, 31, 0, 0, 0)): Date {
+        const startDate = start.getTime();
+        const endDate = end.getTime();
+        return new Date(startDate + Math.random() * (endDate - startDate));
+    }
+    export function run() {
+        let dateList: Date[] = [];
+        for (let i = 0; i < 10; i++) {
+            dateList.push(getRandomDate());
+        }
+        let lfn_dump_date_array = () => {
+            //console.log.apply(console, ['before:', dateList]);
+            dateList.forEach(v => {
+                console.log.apply(console, [v.toLocaleDateString(), v.toLocaleTimeString(), ' number: ', v.valueOf()]);
+            });
+        };
+        lfn_dump_date_array();
+        dateList.sort((a, b) => a.valueOf() - b.valueOf());
+        console.log('');
+        lfn_dump_date_array();
+    }
+}
+FunctionRunner.add({ title: 'DateTest', runFlag: true, func: DateTest.run });
+
+//=====================================================================================================================
+// generic 클래스 static 변수
 namespace GenericStaticTest {
     class GenericClass<T> {
-        private _code : T;
-        public get code() : T {
+        private _code: T;
+        public get code(): T {
             return this._code;
         }
-        public set code(v : T) {
+        public set code(v: T) {
             this._code = v;
         }
         public dump() {
             console.log('GenericClass:_code:', this.code);
         }
 
-        constructor(value:T) {
+        constructor(value: T) {
             this.code = value;
         }
 
-        public static staticVariable:string = 'stringABCDE';
+        public static staticVariable: string = 'stringABCDE';
         public static staticMethod() {
             console.log('GenericClass:staticMethod-1');
         }
 
         // Generic factory 함수 질문 (https://stackoverflow.com/questions/24291216/calling-a-static-function-on-a-generic-class-in-typescript)
 
-        public static factory<T2>(value:T2) {
+        public static factory<T2>(value: T2) {
             return new GenericClass<T2>(value);
         }
     }
@@ -65,7 +92,7 @@ namespace GenericStaticTest {
         gc2.dump();
     }
 }
-FunctionRunner.add({ title: 'GenericStaticTest', runFlag: true, func: GenericStaticTest.run });
+FunctionRunner.add({ title: 'GenericStaticTest', runFlag: false, func: GenericStaticTest.run });
 
 //=====================================================================================================================
 // 콜백,프로미스(callback, promise) 테스트
@@ -98,7 +125,7 @@ namespace PromiseTest {
         console.log('called async func');
     }
 }
-FunctionRunner.add({ title: 'PromiseTest', runFlag: true, func: PromiseTest.run });
+FunctionRunner.add({ title: 'PromiseTest', runFlag: false, func: PromiseTest.run });
 
 
 //=====================================================================================================================
@@ -115,21 +142,21 @@ namespace OptionalVariableTest {
     }
 
     function checkParameter(optVar: IOptionVar) {
-        if(optVar.msg) {
+        if (optVar.msg) {
             console.log('OptionalVariableTest:msg:', optVar.msg);
         }
         else {
             console.log('OptionalVariableTest:msg:ignore');
         }
 
-        if(optVar.num) {
+        if (optVar.num) {
             console.log('OptionalVariableTest:num:', optVar.num);
         }
         else {
             console.log('OptionalVariableTest:num:ignore');
         }
 
-        if(optVar.boolValue) {
+        if (optVar.boolValue) {
             console.log('OptionalVariableTest:boolValue:', optVar.boolValue);
         }
         else {
@@ -165,13 +192,13 @@ namespace ConstVariableTest {
     const BT_A = 'A';
     const BT_B = undefined;
     export function run() {
-        if(BT_A) {
+        if (BT_A) {
             console.log('BT_A:exist');
         }
         else {
             console.log('BT_A:NOT exist');
         }
-        if(BT_B) {
+        if (BT_B) {
             console.log('BT_B:exist');
         } else {
             console.log('BT_B:NOT exist');
@@ -208,10 +235,10 @@ namespace PatCmd {
     function make_moveUnitCommand(unit: any, x: number, y: number): any {
         let xBefore: number, yBefore: number;
         return {
-            execute: function () {
+            execute: function() {
                 console.log('make_moveUnitCommand: execute()');
             },
-            undo: function () {
+            undo: function() {
                 console.log('make_moveUnitCommand: undo()');
             }
         };
@@ -288,7 +315,7 @@ function checkDefaultParam(check: boolean = true, strArr: string[] = null) {
 
     console.log('checkDefaultParam : ', str_arr);
 
-    if(check) {
+    if (check) {
         console.log('checkDefaultParam: check true');
     }
     else {
@@ -304,19 +331,19 @@ function easeOutBounceOriginal(x: number): number {
     const n1 = 7.5625;
     const d1 = 2.75;
 
-    if(x < 1 / d1) { return n1 * x * x; }
-    else if(x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
-    else if(x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
+    if (x < 1 / d1) { return n1 * x * x; }
+    else if (x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
+    else if (x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
 
     return n1 * (x -= 2.625 / d1) * x + 0.984375;
 }
 
 // cocos-creator 2.4.6, CCActionEase.js
 function _bounceTime(time1) {
-    if(time1 < 1 / 2.75) {
+    if (time1 < 1 / 2.75) {
         return 7.5625 * time1 * time1;
     }
-    else if(time1 < 1.93 / 2.75) {
+    else if (time1 < 1.93 / 2.75) {
         time1 -= 1.5 / 2.75;
         return 7.5625 * time1 * time1 + 0.75;
     }
@@ -326,7 +353,7 @@ function _bounceTime(time1) {
 
 function easeOutBounceMod(x: number): number {
     const n1 = 8; const d1 = 2;
-    if(x < 1 / d1) { return n1 * x * x * x; }
+    if (x < 1 / d1) { return n1 * x * x * x; }
     return n1 * (x -= 2 / d1) * x * x + 1;
 }
 
@@ -334,16 +361,16 @@ function easeOutBounceMod2(x: number): number {
     const n1 = 6;
     const d1 = 4;
 
-    if(x < 1 / d1) { return n1 * x * x; }
-    else if(x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
-    else if(x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
+    if (x < 1 / d1) { return n1 * x * x; }
+    else if (x < 2 / d1) { return n1 * (x -= 1.5 / d1) * x + 0.75; }
+    else if (x < 2.5 / d1) { return n1 * (x -= 2.25 / d1) * x + 0.9375; }
 
     return n1 * (x -= 2.625 / d1) * x + 0.984375;
 }
 
 
 function test_easing() {
-    for(let t: number = 0; t <= 1.05; t += 0.05) {
+    for (let t: number = 0; t <= 1.05; t += 0.05) {
         let v = easeOutBounceMod2(t);
         console.log('easeBounceOut(t) > ', t.toFixed(4), ' -> ', v.toFixed(4));
     }
@@ -404,7 +431,7 @@ namespace ConstV {
 };
 
 function test_value_from_enum() {
-    if(ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce) {
+    if (ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce) {
         console.log('ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce : exist');
     } else {
         console.log('ConstV.IngameDesignGuide[BlockType[BlockType.A]].abce : undefined');
@@ -420,7 +447,7 @@ function test_value_from_enum() {
     console.log('\n');
 
     let va = 0;
-    switch(va) {
+    switch (va) {
         case 1:
             break;
         case 2:
@@ -538,8 +565,8 @@ function array_test() {
     let str = '';
     array2.forEach((v, i, ar) => { str += ',' + v });
     console.log.apply(console, ['before array: ', str]);
-    for(let i = array2.length - 1; i >= 0; i--) {
-        if(array2[i] === 1) {
+    for (let i = array2.length - 1; i >= 0; i--) {
+        if (array2[i] === 1) {
             array2.splice(i, 1);
             str = 'after: '; array2.forEach((v, i, ar) => { str += ',' + v }); console.log.apply(console, ['array: ', str]);
         }
