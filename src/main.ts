@@ -28,6 +28,46 @@ import { TickPlay } from "./TickPlay";
 //=====================================================================================================================
 
 //=====================================================================================================================
+// generic 클래스 static 변수
+namespace GenericStaticTest {
+    class GenericClass<T> {
+        private _code : T;
+        public get code() : T {
+            return this._code;
+        }
+        public set code(v : T) {
+            this._code = v;
+        }
+        public dump() {
+            console.log('GenericClass:_code:', this.code);
+        }
+
+        constructor(value:T) {
+            this.code = value;
+        }
+
+        public static staticVariable:string = 'stringABCDE';
+        public static staticMethod() {
+            console.log('GenericClass:staticMethod-1');
+        }
+
+        // Generic factory 함수 질문 (https://stackoverflow.com/questions/24291216/calling-a-static-function-on-a-generic-class-in-typescript)
+
+        public static factory<T2>(value:T2) {
+            return new GenericClass<T2>(value);
+        }
+    }
+    export function run() {
+        console.log('GenericStaticTest:', GenericClass.staticVariable);
+        GenericClass.staticMethod();
+
+        let gc2 = GenericClass.factory('abcd');
+        gc2.dump();
+    }
+}
+FunctionRunner.add({ title: 'GenericStaticTest', runFlag: true, func: GenericStaticTest.run });
+
+//=====================================================================================================================
 // 콜백,프로미스(callback, promise) 테스트
 namespace PromiseTest {
     class TestResponse {
