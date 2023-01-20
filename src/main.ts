@@ -23,9 +23,32 @@ import { FunctionRunner } from "./FunctionRunner";
 import { TickPlay } from "./TickPlay";
 
 
+//== 테스트 코드는 여기에서부터 작성 시작, 설명은 아래쪽에 =========================================================================
+
 //=====================================================================================================================
-// 테스트 코드는 여기에서부터 작성 시작
-//=====================================================================================================================
+// 함수에 배열처름 값 넣기 가능
+namespace FuncAndVar {
+    //const TRIED_COUNT = Symbol('SAMPLE_SYMBOL');
+    const AA = () => {
+        console.log('AA called');
+    };
+    function BB(func1: any) {
+        if (func1['TRIED_COUNT']) {
+            func1['TRIED_COUNT']++;
+        }
+        else {
+            func1['TRIED_COUNT'] = 1;
+        }
+        console.log('func1[TRIED_COUNT] ', func1['TRIED_COUNT']);
+        func1();
+    }
+    export function run() {
+        BB(AA);
+        BB(AA);
+        console.log.apply(console, ['func1:', AA]);
+    }
+}
+FunctionRunner.add({ title: 'FuncAndVar', runFlag: true, func: FuncAndVar.run });
 
 //=====================================================================================================================
 // Date 비교함수
@@ -52,7 +75,7 @@ namespace DateTest {
         lfn_dump_date_array();
     }
 }
-FunctionRunner.add({ title: 'DateTest', runFlag: true, func: DateTest.run });
+FunctionRunner.add({ title: 'DateTest', runFlag: false, func: DateTest.run });
 
 //=====================================================================================================================
 // generic 클래스 static 변수
@@ -690,3 +713,59 @@ FunctionRunner.add({ title: 'test_a', runFlag: false, func: test_a });
 //=============================================================================================================================================================
 
 FunctionRunner.run();
+
+
+//=====================================================================================================================
+// 한번만 실행 여부 확인용 클래스
+// namespace RunOnce_Test {
+//     class RunOnce<T> {
+//         protected inst: T = null;
+//         protected static usedCount = new Map<any, number>();
+//         public init(sampleInst: T) {
+//             //RunOnce.usedCount--;
+//             this.inst = sampleInst;
+//         }
+//         public canRun(sampleInst: T) {
+//             //return this.inst === sampleInst && RunOnce.usedCount === 1;
+//             return false;
+//         }
+//     }
+//     class A {
+//         protected runOnce = new RunOnce<A>();
+//         constructor() {
+//             this.runOnce.init(this);
+//         }
+//         public run() {
+//             if (this.runOnce.canRun(this)) {
+//                 console.log('class-A:run:O');
+//             }
+//             else {
+//                 console.log('class-A:run:x');
+//             }
+//         }
+//     }
+//     class B {
+//         protected runOnce = new RunOnce<B>();
+//         constructor() {
+//             this.runOnce.init(this);
+//         }
+//         public run() {
+//             if (this.runOnce.canRun(this)) {
+//                 console.log('class-B:run:O');
+//             }
+//             else {
+//                 console.log('class-B:run:x');
+//             }
+//         }
+//     }
+//     export function run() {
+//         let ra1 = new A();
+//         let ra2 = new A();
+//         let rb1 = new B();
+//         ra1.run();
+//         ra1.run();
+//         ra2.run();
+//         rb1.run();
+//     }
+// }
+// FunctionRunner.add({ title: 'RunOnce_Test', runFlag: true, func: RunOnce_Test.run });
