@@ -27,11 +27,14 @@ import { TickPlay } from "./TickPlay";
 
 //=====================================================================================================================
 // 함수에 배열처름 값 넣기 가능
-namespace FuncAndVar {
+namespace FuncAsObject {
     //const TRIED_COUNT = Symbol('SAMPLE_SYMBOL');
     const AA = () => {
         console.log('AA called');
     };
+    function CC() {
+        console.log('CC called');
+    }
     function BB(func1: any) {
         if (func1['TRIED_COUNT']) {
             func1['TRIED_COUNT']++;
@@ -45,10 +48,12 @@ namespace FuncAndVar {
     export function run() {
         BB(AA);
         BB(AA);
-        console.log.apply(console, ['func1:', AA]);
+        BB(CC);
+        console.log.apply(console, ['AA:', AA]);
+        console.log.apply(console, ['CC:', CC]);
     }
 }
-FunctionRunner.add({ title: 'FuncAndVar', runFlag: true, func: FuncAndVar.run });
+FunctionRunner.add({ title: 'FuncAsObject', runFlag: true, func: FuncAsObject.run });
 
 //=====================================================================================================================
 // Date 비교함수
