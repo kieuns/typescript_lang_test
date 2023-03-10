@@ -25,7 +25,37 @@ import { TickPlay } from "./TickPlay";
 
 //== 테스트 코드는 여기에서부터 작성 시작, 설명은 아래쪽에 =========================================================================
 
-//=====================================================================================================================
+//====
+// 함수형 파라미터 전달?
+namespace FuncAsParamTest {
+    function loadAD(onComplete: ((error: { code: string, message: string }) => void)) {
+        console.log.apply(console, [onComplete]);
+        onComplete({ code: "ON_LOADING", message: "Ad is still loading or loaded" });
+    }
+    function subFunc(error: { code: string, message: string }) {
+        console.log('subFunc: ', error.code, ',', error.message);
+    }
+    export function run() {
+
+        let fna = (error: { code: string, message: string }) => {
+            console.log('fna:', 'acbcdde1', error.code);
+        };
+
+        let fnb = () => {
+            console.log('acbcdde2');
+        };
+        subFunc({code:'111', message:'222'});
+
+        // fna(..) 함수가 파라미터로 전달되기 보다, 먼저 실행 되어 fna()의 리턴값이 loadAd()로 전달된다.
+        // 이 값은 loadAD()가 원하는 파라미터가 아니라서 에러.
+        //loadAD( fna({code:'abc', message:'bbb'}) ); // 에러.
+
+        loadAD( () => fna({code:'abc', message:'bbb'}) );
+    }
+}
+FunctionRunner.add({ title: 'FuncAsParamTest', runFlag: true, func: FuncAsParamTest.run });
+
+//====
 // 함수에 배열처름 값 넣기 가능
 namespace FuncAsObject {
     //const TRIED_COUNT = Symbol('SAMPLE_SYMBOL');
@@ -53,7 +83,7 @@ namespace FuncAsObject {
         console.log.apply(console, ['CC:', CC]);
     }
 }
-FunctionRunner.add({ title: 'FuncAsObject', runFlag: true, func: FuncAsObject.run });
+FunctionRunner.add({ title: 'FuncAsObject', runFlag: false, func: FuncAsObject.run });
 
 //=====================================================================================================================
 // Date 비교함수

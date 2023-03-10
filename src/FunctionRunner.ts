@@ -21,6 +21,7 @@ export namespace FunctionRunner
             //console.log.apply(console, [v]);
             if(v.runFlag) {
                 if(v.title) {
+                    console.log('====', v.title, '====');
                     console.log.apply(console, ['[run: ] ', v.title]);
                 }
                 v.func && v.func();
