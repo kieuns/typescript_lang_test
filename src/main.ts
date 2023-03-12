@@ -1,12 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable no-explicit-any */
+
 ///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-// To summarize(non - exhaustively) bash's command operators/separators:
-//
-// | pipes(pipelines) the standard output(stdout) of one command into the standard input of another one.Note that stderr still goes into its default destination, whatever that happen to be.
-// |& pipes both stdout and stderr of one command into the standard input of another one.Very useful, available in bash version 4 and above.
-// && executes the right - hand command of && only if the previous one succeeded.
-// || executes the right - hand command of || only it the previous one failed.
-// ; executes the right - hand command of; always regardless whether the previous command succeeded or failed.Unless set - e was previously invoked, which causes bash to fail on an error.
-//
 // tsc 컴파일 할때, (https://stackoverflow.com/questions/41010780/accessors-are-only-available-when-targeting-ecmascript-5-and-higher)
 // 버젼명시:
 // tsc -t es5 {파일명}.ts
@@ -248,7 +243,7 @@ FunctionRunner.add({ title: '제이슨2const변수Test', runFlag: false, func: J
 // example:
 namespace ConstVariableTest {
     const BT_A = 'A';
-    const BT_B = undefined;
+    const BT_B:any = undefined;
     export function run() {
         if (BT_A) {
             console.log('BT_A:exist');
@@ -314,8 +309,7 @@ FunctionRunner.add({ title: 'PatternTest', runFlag: false, func: PatCmd.run });
 
 //=====================================================================================================================
 
-/** @type {TickPlay} */
-let tickPlay = null;
+let tickPlay:TickPlay = null;
 function runTick() {
     tickPlay = new TickPlay();
     tickPlay.start(20);
@@ -397,7 +391,7 @@ function easeOutBounceOriginal(x: number): number {
 }
 
 // cocos-creator 2.4.6, CCActionEase.js
-function _bounceTime(time1) {
+function _bounceTime(time1 : number) {
     if (time1 < 1 / 2.75) {
         return 7.5625 * time1 * time1;
     }
@@ -458,7 +452,7 @@ function test_interface() {
     console.log(aa.x, ',', aa.y);
     console.log(bb.x);
 
-    let cc = smp_arrary[2];
+    let cc: XY = smp_arrary[2];
     console.log(smp_arrary[2]);
     console.log(cc.y);
 }
@@ -496,11 +490,10 @@ function test_value_from_enum() {
     }
 
     let v = BlockType.C;
-    console.log.apply(console, ['IngameDesignGuide[BlockType[BlockType.C]]'
-        , ConstV.IngameDesignGuide[BlockType[v]]]);
+    console.log.apply(console, [ 'IngameDesignGuide[BlockType[BlockType.C]]', ConstV.IngameDesignGuide[BlockType[v] as keyof typeof ConstV.IngameDesignGuide] ]);
 
     console.log.apply(console, ['IngameDesignGuide[BlockType[BlockType.C]].yPosition: '
-        , ConstV.IngameDesignGuide[BlockType[BlockType.C]].yPosition]);
+        , ConstV.IngameDesignGuide[BlockType[BlockType.C] as keyof typeof ConstV.IngameDesignGuide].yPosition]);
 
     console.log('\n');
 

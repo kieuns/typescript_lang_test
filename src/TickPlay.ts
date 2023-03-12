@@ -27,7 +27,7 @@ export class TickPlay
     /** 게임이 끝나는 시간 */
     protected _expectEndTime:number = 0;
     protected _expectEndTick:number = 0;
-    protected _tickTimerId:number = -1;
+    protected _tickTimerId:NodeJS.Timer = null;
     protected _loopStarted:boolean = false;
 
     /** 작업 목록 */
@@ -47,7 +47,7 @@ export class TickPlay
      */
     start(expectEndTick?:number)
     {
-        this._expectEndTick = expectEndTick;
+        this._expectEndTick = expectEndTick ? expectEndTick : 60 * 100;
         this._expectEndTime = this._tickMaxPerSec * (expectEndTick ? expectEndTick : (12*60));
         this._tickNowIndex = 0;
         this._workTodo = [];
