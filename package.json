@@ -6,16 +6,16 @@
     "main": "clear && tsc --build && node dist/main",
     "replit": "tsc --build && node dist/main",
     "build": "tsc --build",
-    "njtest": "cls && npx tsc && node dist/nodetest"
+    "ts:test": "clear && npx tsc && node dist/nodetest"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.182",
-    "@types/node": "^18.15.0",
+    "@types/node": "^18.19.26",
     "@typescript-eslint/eslint-plugin": "^5.54.1",
     "@typescript-eslint/parser": "^5.54.1",
     "eslint": "^8.36.0",
     "mathjs": "^11.1.0",
-    "nodemon": "^2.0.21",
+    "nodemon": "^3.1.0",
     "ts-node": "^10.9.1",
     "typescript": "^4.9.5"
   },

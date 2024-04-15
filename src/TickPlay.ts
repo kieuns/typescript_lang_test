@@ -30,6 +30,8 @@ export class TickPlay
     protected _tickTimerId:NodeJS.Timer = null;
     protected _loopStarted:boolean = false;
 
+    protected _tickTimerNid:number = null;
+
     /** 작업 목록 */
     protected _workTodo:ITickWork[] = [];
 
@@ -58,7 +60,7 @@ export class TickPlay
 
     stop()
     {
-        clearInterval(this._tickTimerId);
+        if(this._tickTimerId) clearInterval(this._tickTimerId[Symbol.toPrimitive]());
     }
 
     onTick()
